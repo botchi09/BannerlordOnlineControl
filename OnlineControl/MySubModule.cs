@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
@@ -30,6 +31,7 @@ namespace OnlineControl
         }
         private void StartServerThread()
         {
+            
             AbortServer();
             serverThread = new Thread(new ThreadStart(StartServer));
             serverThread.Start();
@@ -37,6 +39,7 @@ namespace OnlineControl
         public override void OnGameInitializationFinished(Game game)
         {
             StartServerThread();
+            
         }
         protected override void OnSubModuleLoad()
         {
