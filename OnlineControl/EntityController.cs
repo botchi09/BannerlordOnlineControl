@@ -27,52 +27,58 @@ namespace OnlineControl
 				{
 					dynamic target; //Can be Settlement or MobileParty
 					Debug.Print("Applied " + action + " to " + request.target);
-					switch (action) //TODO: More repeated code....
+					try
 					{
-						case "Reset":
-							request.subjects.ForEach((subjectId) =>
-							{
-								FindEntity(subjectId).Ai.SetAIState(AIState.Undefined);
-								FindEntity(subjectId).ResetAiBehaviorObject();
+						switch (action) //TODO: More repeated code....
+						{
+							case "Reset":
+								request.subjects.ForEach((subjectId) =>
+								{
+									FindEntity(subjectId).Ai.SetAIState(AIState.Undefined);
+									FindEntity(subjectId).ResetAiBehaviorObject();
 
-							});
-							break;
-						case "Engage":
-							target = (MobileParty)FindEntity(request.target);
-							request.subjects.ForEach((subjectId) =>
-							{
-								FindEntity(subjectId).SetMoveEngageParty(target);
+								});
+								break;
+							case "Engage":
+								target = (MobileParty)FindEntity(request.target);
+								request.subjects.ForEach((subjectId) =>
+								{
+									FindEntity(subjectId).SetMoveEngageParty(target);
 
-							});
-							break;
-						case "Escort":
-							target = (MobileParty)FindEntity(request.target);
-							request.subjects.ForEach((subjectId) =>
-							{
-								FindEntity(subjectId).SetMoveEscortParty(target);
-							});
-							break;
-						case "GoAround":
-							target = (MobileParty)FindEntity(request.target);
-							request.subjects.ForEach((subjectId) =>
-							{
-								FindEntity(subjectId).SetMoveGoAroundParty(target);
-							});
-							break;
-						case "AiOn":
-							request.subjects.ForEach((subjectId) =>
-							{
-								FindEntity(subjectId).Ai.SetDoNotMakeNewDecisions(false);
-							});
+								});
+								break;
+							case "Escort":
+								target = (MobileParty)FindEntity(request.target);
+								request.subjects.ForEach((subjectId) =>
+								{
+									FindEntity(subjectId).SetMoveEscortParty(target);
+								});
+								break;
+							case "GoAround":
+								target = (MobileParty)FindEntity(request.target);
+								request.subjects.ForEach((subjectId) =>
+								{
+									FindEntity(subjectId).SetMoveGoAroundParty(target);
+								});
+								break;
+							case "AiOn":
+								request.subjects.ForEach((subjectId) =>
+								{
+									FindEntity(subjectId).Ai.SetDoNotMakeNewDecisions(false);
+								});
 
-							break;
-						case "AiOff":
-							request.subjects.ForEach((subjectId) =>
-							{
-								FindEntity(subjectId).Ai.SetDoNotMakeNewDecisions(true);
-							});
-							break;
+								break;
+							case "AiOff":
+								request.subjects.ForEach((subjectId) =>
+								{
+									FindEntity(subjectId).Ai.SetDoNotMakeNewDecisions(true);
+								});
+								break;
 
+						}
+					} catch
+					{
+						Debug.Print("JSON processing error. Missing arguments?");
 					}
 				});
 			});
