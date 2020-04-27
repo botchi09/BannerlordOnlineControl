@@ -111,6 +111,7 @@ namespace OnlineControl
 
 					if ((req.HttpMethod == "POST") && (req.Url.AbsolutePath == "/stagechanges"))
 					{
+						var successString = "";
 						Debug.Print("Stage changes request");
 						try
 						{
@@ -118,14 +119,16 @@ namespace OnlineControl
 							List<EntityActionRequest> userRequest = JsonConvert.DeserializeObject<List<EntityActionRequest>>(documentContents);
 							lordController.ProcessRequest(userRequest);
 							Debug.Print("Deserialize success");
+							successString = "OK";
 						}
 						catch
 						{
 							Debug.Print("Couldn't deserialize request");
 							Debug.Print(GetDocumentContents(req));
-							await DoResponse(Encoding.UTF8.GetBytes("Deserialize error"), resp);
+							successString = "Bad JSON";
 						}
-
+						hasResponded = true;
+						await DoResponse(Encoding.UTF8.GetBytes(successString), resp);
 					}
 
 
